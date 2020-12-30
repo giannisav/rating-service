@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+
+  pgdbRating:
+    image: postgres:12.1-alpine
+    container_name: pgdbrating
+    ports:
+      - "5432:5432"
+    volumes:
+      - "postgres_rating:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "12345"
+      POSTGRES_DB: "ratingservice"
+      PGDATA: "/pgdata"
+
+volumes:
+  postgres_rating:
+    driver: local
+   
