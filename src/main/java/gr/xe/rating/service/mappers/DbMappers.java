@@ -1,23 +1,27 @@
 package gr.xe.rating.service.mappers;
 
 import gr.xe.rating.service.models.db.Rating;
+import gr.xe.rating.service.models.dto.RatingDto;
+import org.springframework.stereotype.Component;
 
-import java.time.Instant;
-import java.util.Date;
 
+import java.time.LocalDate;
+
+@Component
 public final class DbMappers {
-    public static Rating fromDtoModel (gr.xe.rating.service.models.dto.Rating rating) {
-        if (rating == null) {
+
+    public Rating fromDtoModel (RatingDto ratingDto) {
+        if (ratingDto == null) {
             return null;
         }
 
-        var o = new Rating();
+        var rating = new Rating();
 
-        o.setGivenRating(rating.getGivenRating());
-        o.setRatedEntity(rating.getRatedEntity());
-        o.setRater(rating.getRater());
-        o.setCreatedAt(Date.from(Instant.now()));
+        rating.setGivenRating(ratingDto.getGivenRating());
+        rating.setRatedEntity(ratingDto.getRatedEntity());
+        rating.setRater(ratingDto.getRater());
+        rating.setCreatedAt(LocalDate.now());
 
-        return o;
+        return rating;
     }
 }

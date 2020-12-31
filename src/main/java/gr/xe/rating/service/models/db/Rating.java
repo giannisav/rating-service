@@ -5,7 +5,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -23,14 +23,14 @@ public class Rating {
     private Long id;
 
     @Column(name = "given_rating", nullable = false)
-    private double givenRating;
+    private Double givenRating;
 
     @Column(name = "rated_entity", nullable = false)
     private String ratedEntity;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
-    private Date createdAt;
+    private LocalDate createdAt;
 
     @Column(name = "rater", nullable = true)
     private String rater;
