@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class RatingsController {
 
     private static final Logger logger = LoggerFactory.getLogger(RatingsController.class);
+
     private final RatingsService service;
 
     @PostMapping

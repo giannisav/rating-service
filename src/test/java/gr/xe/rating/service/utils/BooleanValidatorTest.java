@@ -11,7 +11,6 @@ import static org.junit.Assert.fail;
 public class BooleanValidatorTest {
 
     private static final String EXCEPTION_MESSAGE = "Rated Entity should not be null or empty.";
-
     
     private BooleanValidator validator;
     

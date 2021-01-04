@@ -5,10 +5,10 @@ import gr.xe.rating.service.models.dto.RatingDto;
 import org.springframework.stereotype.Component;
 
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Component
-public final class DbMappers {
+public class DbMappers {
 
     public Rating fromDtoModel (RatingDto ratingDto) {
         if (ratingDto == null) {
@@ -20,7 +20,7 @@ public final class DbMappers {
         rating.setGivenRating(ratingDto.getGivenRating());
         rating.setRatedEntity(ratingDto.getRatedEntity());
         rating.setRater(ratingDto.getRater());
-        rating.setCreatedAt(LocalDate.now());
+        rating.setCreatedAt(LocalDateTime.now());
 
         return rating;
     }

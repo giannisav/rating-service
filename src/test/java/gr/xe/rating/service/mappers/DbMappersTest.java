@@ -1,17 +1,18 @@
 package gr.xe.rating.service.mappers;
 
+import gr.xe.rating.service.models.db.Rating;
 import gr.xe.rating.service.models.dto.RatingDto;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.springframework.util.Assert;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class DbMappersTest {
 
     private DbMappers mapper;
 
-    @BeforeEach
+    @Before
     public void setUp() {
         mapper = new DbMappers();
     }
@@ -23,16 +24,16 @@ public class DbMappersTest {
 
     @Test
     public void fromDtoModel_WhenRatingDtoIsOk_ShouldMapCorrectly() {
-        var dto = new RatingDto();
-        dto.setCreatedAt(LocalDate.now());
+        RatingDto dto = new RatingDto();
+        dto.setCreatedAt(LocalDateTime.now().minusSeconds(10));
         dto.setGivenRating(1.0);
         dto.setRatedEntity("none");
         dto.setRater("rater");
 
-        var rating = mapper.fromDtoModel(dto);
+        Rating rating = mapper.fromDtoModel(dto);
 
-        Assert.isTrue(rating.getCreatedAt().compareTo(dto.getCreatedAt()) == 0, "Created date not auto assigned");
-        Assert.isTrue(dto.getGivenRating() == rating.getGivenRating(), "Not equal ratings");
+        Assert.isTrue(dto.getCreatedAt().compareTo(rating.getCreatedAt()) < 0, "Created date not auto assigned");
+        Assert.isTrue(dto.getGivenRating().equals(rating.getGivenRating()), "Not equal ratings");
         Assert.isTrue(dto.getRatedEntity().equals(rating.getRatedEntity()), "Not equal entities");
         Assert.isTrue(dto.getRater().equals(rating.getRater()), "Not equal raters");
     }

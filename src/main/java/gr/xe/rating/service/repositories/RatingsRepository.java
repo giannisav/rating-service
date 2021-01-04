@@ -8,5 +8,5 @@ import java.util.List;
 public interface RatingsRepository extends JpaRepository<Rating, Long> {
 
     List<Rating> findAllByRatedEntityEquals(String ratedEntity);
-    boolean existsByRatedEntityEquals(String ratedEntity);
+    boolean existsByRatedEntity(String ratedEntity);
 }

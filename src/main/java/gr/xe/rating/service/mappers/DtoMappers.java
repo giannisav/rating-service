@@ -5,7 +5,7 @@ import gr.xe.rating.service.models.dto.RatingDto;
 import org.springframework.stereotype.Component;
 
 @Component
-public final class DtoMappers {
+public class DtoMappers {
 
     public RatingDto fromDbModel (Rating rating) {
         if (rating == null) {

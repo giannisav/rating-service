@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -17,5 +17,5 @@ public class RatingDto {
 
     private String rater;
 
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 }
