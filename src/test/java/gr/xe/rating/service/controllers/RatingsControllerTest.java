@@ -3,8 +3,8 @@ package gr.xe.rating.service.controllers;
 import gr.xe.rating.service.models.dto.ComputedRatingDto;
 import gr.xe.rating.service.models.dto.RatingDto;
 import gr.xe.rating.service.services.RatingsService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
@@ -21,7 +21,7 @@ public class RatingsControllerTest {
 
     private RatingsController controller;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         controller = new RatingsController(service);
         ratingDto = new RatingDto();

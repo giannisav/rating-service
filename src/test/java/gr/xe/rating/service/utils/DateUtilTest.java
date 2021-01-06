@@ -1,6 +1,6 @@
 package gr.xe.rating.service.utils;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;

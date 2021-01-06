@@ -1,12 +1,12 @@
 package gr.xe.rating.service.utils;
 
 import gr.xe.rating.service.exceptions.InvalidGivenArgumentException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import org.springframework.util.Assert;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 public class BooleanValidatorTest {
 
@@ -14,7 +14,7 @@ public class BooleanValidatorTest {
     
     private BooleanValidator validator;
     
-    @Before
+    @BeforeEach
     public void setUp() {
         validator = new BooleanValidator();
     }
@@ -30,11 +30,8 @@ public class BooleanValidatorTest {
 
     @Test
     public void validate_WhenGivenConditionIsTrue_ShouldDoNothing() {
-        try {
-            validator.validate(Boolean.TRUE, () -> new InvalidGivenArgumentException(EXCEPTION_MESSAGE));
-        } catch (InvalidGivenArgumentException ex) {
-            fail();
-        }
+        assertDoesNotThrow(() ->
+                validator.validate(Boolean.TRUE, () -> new InvalidGivenArgumentException(EXCEPTION_MESSAGE)));
     }
 
 }

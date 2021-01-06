@@ -2,8 +2,8 @@ package gr.xe.rating.service.mappers;
 
 import gr.xe.rating.service.models.db.Rating;
 import gr.xe.rating.service.models.dto.RatingDto;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
@@ -13,7 +13,7 @@ public class DtoMappersTest {
 
     private DtoMappers mapper;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         mapper = new DtoMappers();
     }

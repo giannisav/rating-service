@@ -10,8 +10,8 @@ import gr.xe.rating.service.models.dto.RatingDto;
 import gr.xe.rating.service.repositories.RatingsRepository;
 import gr.xe.rating.service.utils.BooleanValidator;
 import gr.xe.rating.service.utils.DateUtil;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.util.Assert;
 
 import java.time.LocalDate;
@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -47,7 +48,7 @@ public class RatingsServiceImplTest {
 
     private RatingsService service;
 
-    @Before
+    @BeforeEach
     public void setUp() {
 
         service = new RatingsServiceImpl(validator, repository, dbMapper, dtoMapper, dateUtil);
@@ -72,17 +73,15 @@ public class RatingsServiceImplTest {
         Assert.isTrue(returnedDto.getGivenRating().equals(VALID_RATING), "Not same rating");
     }
 
-    @Test(expected = InvalidGivenArgumentException.class)
+    @Test
     public void saveRating_WhenRatingDtoIsNotValid_ExceptionIsThrown() {
         RatingDto ratingDto = createRatingDto(INVALID_RATING, RATED_ENTITY);
         doThrow(invalidArgumentException).when(validator).validate(anyBoolean(), any(Supplier.class));
 
-        RatingDto returnedDto = service.saveRating(ratingDto);
-
+        assertThrows(InvalidGivenArgumentException.class, () -> service.saveRating(ratingDto));
         verify(dbMapper, never()).fromDtoModel(eq(ratingDto));
         verify(repository, never()).save(any(Rating.class));
         verify(dtoMapper, never()).fromDbModel(any(Rating.class));
-        Assert.isNull(returnedDto, "Should be null");
     }
 
     @Test

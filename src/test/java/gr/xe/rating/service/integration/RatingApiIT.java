@@ -5,8 +5,7 @@ import gr.xe.rating.service.models.dto.ComputedRatingDto;
 import gr.xe.rating.service.models.dto.RatingDto;
 import gr.xe.rating.service.repositories.RatingsRepository;
 import gr.xe.rating.service.utils.DateUtil;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -16,7 +15,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.Assert;
 
 import java.net.URI;
@@ -26,7 +24,6 @@ import java.time.LocalDateTime;
 import static org.mockito.Mockito.when;
 
 @DirtiesContext
-@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RatingApiIT {
 

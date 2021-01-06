@@ -3,10 +3,8 @@ package gr.xe.rating.service.services;
 import gr.xe.rating.service.models.db.Rating;
 import gr.xe.rating.service.repositories.RatingsRepository;
 import gr.xe.rating.service.utils.DateUtil;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,21 +17,15 @@ import static org.mockito.Mockito.*;
 
 public class ScheduledTasksTest {
 
-    private static final String CACHE_NAME = "ratings";
-
     private RatingsRepository repository = mock(RatingsRepository.class);
-
-    private CacheManager manager = mock(CacheManager.class);
 
     private DateUtil dateUtil = mock(DateUtil.class);
 
-    private Cache cache = mock(Cache.class);
-
     private ScheduledTasks tasks;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        tasks = new ScheduledTasks(repository, manager, dateUtil);
+        tasks = new ScheduledTasks(repository, dateUtil);
     }
 
     @Test
@@ -51,20 +43,6 @@ public class ScheduledTasksTest {
         tasks.clearOldRatings();
 
         verify(repository).delete(eq(rating2));
-    }
-
-    @Test
-    public void clearCache_WhenInvoked_ShouldWorkProperly() {
-        List<String> cacheNames = Arrays.asList(CACHE_NAME);
-        when(manager.getCacheNames()).thenReturn(cacheNames);
-        when(manager.getCache(eq(CACHE_NAME))).thenReturn(cache);
-        doNothing().when(cache).clear();
-
-        tasks.clearCache();
-
-        verify(manager).getCacheNames();
-        verify(manager).getCache(eq(CACHE_NAME));
-        verify(cache).clear();
     }
 
     private Rating createRating(Double givenRating, String ratedEntity) {
