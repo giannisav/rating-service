@@ -17,6 +17,7 @@ import org.springframework.util.Assert;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -50,7 +51,6 @@ public class RatingsServiceImplTest {
 
     @BeforeEach
     public void setUp() {
-
         service = new RatingsServiceImpl(validator, repository, dbMapper, dtoMapper, dateUtil);
     }
 
@@ -107,6 +107,22 @@ public class RatingsServiceImplTest {
 
         Assert.isTrue(computedRatingDto.getNumOfRatings().equals(EXPECTED_CONSIDERED_RATINGS),"Not same number of considered ratings");
         Assert.isTrue(computedRatingDto.getOverallRating().equals(EXPECTED_OVERALL_RATING), "Not same overall rating");
+    }
+
+    @Test
+    public void getRatingFor_WhenInvoked_CannotReturnNegative() {
+        doNothing().when(validator).validate(anyBoolean(), any(Supplier.class));
+        LocalDateTime now = LocalDate.now().atStartOfDay().plusNanos(-1);
+        LocalDateTime ratingCreatedAt = now.plusDays(-101).plusNanos(1);
+        when(dateUtil.now()).thenReturn(now);
+        Rating rating1 = createRating(4.5, RATED_ENTITY);
+        rating1.setCreatedAt(ratingCreatedAt);
+        List<Rating> ratings = Collections.singletonList(rating1);
+        when(repository.findAllByRatedEntityEquals(eq(RATED_ENTITY))).thenReturn(ratings);
+        ComputedRatingDto computedRatingDto = service.getRatingFor(RATED_ENTITY);
+
+        Assert.isTrue(computedRatingDto.getNumOfRatings().equals(1),"Not same number of considered ratings");
+        Assert.isTrue(computedRatingDto.getOverallRating().equals(0.0), "Not same overall rating");
     }
 
     private RatingDto createRatingDto(Double givenRating, String ratedEntity){

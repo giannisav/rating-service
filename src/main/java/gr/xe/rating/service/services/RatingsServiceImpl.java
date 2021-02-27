@@ -50,26 +50,25 @@ public class RatingsServiceImpl implements RatingsService{
     public ComputedRatingDto getRatingFor(String ratedEntity) {
         validator.validate(repository.existsByRatedEntity(ratedEntity),
                 () -> new NotFoundRatedEntity(ratedEntity + " has not any ratings."));
-        List<Rating> ratings = getRatingsCreatedLast100DaysFor(ratedEntity);
+        LocalDateTime now = dateUtil.now();
+        List<Rating> ratings = getRatingsCreatedLast100DaysFor(ratedEntity, now);
 
         ComputedRatingDto computedRatingDto = new ComputedRatingDto();
         computedRatingDto.setNumOfRatings(ratings.size());
-        double overallRating = getWeightedRatingSum(ratings) / ratings.size() / 20;
+        double overallRating = getWeightedRatingSum(ratings, now) / ratings.size() / 20;
         computedRatingDto.setOverallRating(Math.floor(overallRating * 100) / 100);
 
         return computedRatingDto;
     }
 
-    private List<Rating> getRatingsCreatedLast100DaysFor(String ratedEntity) {
-        LocalDateTime now = dateUtil.now();
+    private List<Rating> getRatingsCreatedLast100DaysFor(String ratedEntity, LocalDateTime now) {
         return repository.findAllByRatedEntityEquals(ratedEntity)
                 .stream()
                 .filter(rating -> ChronoUnit.DAYS.between(rating.getCreatedAt(), now) <= 100)
                 .collect(Collectors.toList());
     }
 
-    private Double getWeightedRatingSum(List<Rating> ratings) {
-        LocalDateTime now = dateUtil.now();
+    private Double getWeightedRatingSum(List<Rating> ratings, LocalDateTime now) {
 
         return ratings
                 .stream()
